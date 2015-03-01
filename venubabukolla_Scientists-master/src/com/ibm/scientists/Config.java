@@ -8,7 +8,7 @@ public class Config
     
     /** Cloudant **/
     public static final int CLOUDANT_PORT = 443;
-    public static final String CLOUDANT_NAME = "talent-manager";
+    public static final String CLOUDANT_NAME = "Scientists";
     
     /** Watson User Modeling **/
     
