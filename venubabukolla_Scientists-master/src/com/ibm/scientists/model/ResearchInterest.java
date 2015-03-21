@@ -6,6 +6,7 @@ import java.util.List;
 public class ResearchInterest {
 	
 	String researchInterests;
+	public double percentage;
 	
 	public ResearchInterest() {
 		researchInterests = new String();
@@ -13,6 +14,11 @@ public class ResearchInterest {
 	
 	public ResearchInterest(String research){
 		this.researchInterests = research;
+	}
+	
+	public ResearchInterest( String id, double pct){
+		this.researchInterests = id;
+		this.percentage = pct;
 	}
 	
 	public String getResearchInterests() {

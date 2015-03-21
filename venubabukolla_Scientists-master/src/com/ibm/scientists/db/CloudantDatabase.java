@@ -14,8 +14,8 @@ import org.ektorp.impl.StdCouchDbInstance;
 
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
-
 import com.ibm.scientists.Config;
+import com.ibm.scientists.Constants;
 import com.ibm.scientists.controller.JsonUtils;
 import com.ibm.scientists.model.BioInfo;
 import com.ibm.scientists.model.Qualification;
@@ -42,7 +42,7 @@ public class CloudantDatabase {
 	{
 		this.httpClient = null;
 		 
-		 try {
+		 /*try {
            		String VCAP_SERVICES = System.getenv("VCAP_SERVICES");
 			JSONObject vcap;
 			vcap = (JSONObject) JSONObject.parse(VCAP_SERVICES);
@@ -57,8 +57,17 @@ public class CloudantDatabase {
 		this.host = (String) cloudantCredentials.get("host");
 		this.username = (String) cloudantCredentials.get("username");
 		this.password = (String) cloudantCredentials.get("password");
+		this.name = Config.CLOUDANT_NAME; */
+		
+		this.port = 443;
+		this.host = "cdb3ec23-5329-4ca8-8311-2b51c082de1d-bluemix.cloudant.com";
+		this.username = "cdb3ec23-5329-4ca8-8311-2b51c082de1d-bluemix";
+		this.password = "5b28c6e63bf36fac37c2dbf09c634200d1aff46656a69ad0a1d0ee0b22bbef05";
 		this.name = Config.CLOUDANT_NAME;
+		
 		this.dbc = this.createDBConnector();
+		
+		
 	}
 
 	private CouchDbConnector createDBConnector() {
@@ -109,12 +118,12 @@ CouchDbInstance dbInstance = null;
 		researchIntrst.add(resrchIntrst1);
 		
 				
-		Scientist scientist = new Scientist("Abdul Kalam", bioinformation ,researchIntrst,"" );
+		Scientist scientist = new Scientist("Venu Babu Kolla", bioinformation ,researchIntrst,"" );
 		
 		CloudantDatabase cdatabase = new CloudantDatabase();
 		cdatabase.putScientist(scientist);
 		
-		
+		//Scientist scientist1 = cdatabase.getScientist("")
 		
 	}
 
@@ -151,5 +160,25 @@ CouchDbInstance dbInstance = null;
 		this.dbc.create(data);
 		System.out.println("Put _id=" + id + " into the datastore."); 
 		
+	}
+	
+	/**
+	 * 
+	 * 
+	 *  Get a Scientist Name from Cloudant using name as the unique id. 
+	 * 
+	 * **/
+	public Scientist getScientist(String name)
+	{
+		name = name.toUpperCase();
+		@SuppressWarnings("unchecked")
+		HashMap<String, Object> obj = this.dbc.get(HashMap.class, name);
+		Scientist scientist = JsonUtils.getPersonFromJson((String)obj.get(Constants.JSON_KEY));
+		return scientist;
+	}
+
+	public List<Scientist> getAllScientistsNotInGroup(String currentScientistsGroup) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
